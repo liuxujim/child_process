@@ -7,6 +7,8 @@ cluster.setupMaster({
 });
 var cpus = require('os').cpus();
 
+var sendEmail = require('./mail.js');
+
 // Restart times
 var limit = 10;
 var during = 60000;
@@ -48,8 +50,23 @@ var createWorker = function () {
 
 for (var i = 0; i < cpus.length; i++) {
     createWorker();
-}
+};
 
+//send email to nofity
+var mailOptions = {
+    from: "foo@bar.com",
+    to: "liuxujin@gmail.com, xurest@gmail.com",
+    subject: "Hello",
+    text: "Hello world",
+    html: "<b>Your server has been started</b>"
+};
+sendEmail.sendMail(mailOptions, function(err, response){
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Message sent: " + response.message);
+    }
+});
 
 
 //write the pid into file
@@ -63,3 +80,5 @@ process.on('SIGTERM', function () {
     }
     process.exit(0);
 });
+
+
