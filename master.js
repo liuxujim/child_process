@@ -7,9 +7,10 @@ server.listen(1337);
 var limit = 10;
 var during = 60000;
 var restart = [];
+var length = 0;
 var isTooFrequently = function () {
     var time = Date.now();
-    var length = restart.push(time);
+    length = restart.push(time);
     if (length > limit) {
         restart = restart.slice(limit * -1);
     }

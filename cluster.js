@@ -1,3 +1,6 @@
+var fs = require('fs');
+var path = require('path');
+
 var cluster = require('cluster');
 cluster.setupMaster({
     exec: "worker.js"
@@ -47,3 +50,16 @@ for (var i = 0; i < cpus.length; i++) {
     createWorker();
 }
 
+
+
+//write the pid into file
+
+var pidfile = path.join(__dirname, 'app.pid');
+fs.writeFileSync(pidfile, process.pid);
+
+process.on('SIGTERM', function () {
+    if (fs.existsSync(pidfile)) {
+        fs.unlinkSync(pidfile);
+    }
+    process.exit(0);
+});
