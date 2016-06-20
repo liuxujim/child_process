@@ -2,7 +2,7 @@ you can run either
 
 1. node master.js
 
-or
+or 
 
 2. node cluster.js
 
